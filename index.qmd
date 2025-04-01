@@ -1,0 +1,119 @@
+---
+title: "<span style='color:#f10f10f10; font-size:100pt'><br>
+High-dimensional Regression with a Count Response
+</span>"
+subtitle: "<span style='color:#f10f10f10; font-size:30pt'>
+By Zilberman & Abramovich
+ </span>"
+author: "<span style='color:#f10f10f10; font-size:30pt'></span>"
+---
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+# Setup ----
+## Packages to use ----
+pacman::p_load(tidyverse, janitor, writexl, 
+              readxl, scales, mytidyfunctions, 
+              presupuestoR, ggdist, 
+              distributional)
+
+## Set theme ------
+theme_set(theme_jmr(text = element_text(family = "Lato",
+                                        size=25),
+                    panel.grid = element_blank(),
+                    plot.title = formt_text(size = 35)))
+
+options(ggplot2.discrete.colour = c("#1E81A2", "#FF483B", "#039176", "#FFAC41"),
+        ggplot2.discrete.fill = c("#1E81A2", "#FF483B", "#039176", "#FFAC41"))
+
+## Specify locale ----
+Sys.setlocale("LC_ALL", "es_ES.UTF-8")
+
+## Disable scientific notation ----
+options(scipen = 999)
+```
+
+
+## Introduction
+
+* The paper focus in regression for **count high-dimensional data using GLMs** like Poisson or NB.
+* For this reason, LASSO techniques have been proposed for high-dimensional settings in Poisson and negative binomial regression. However, the **theoretical ground for high-dimensional count data has been less developed**.
+
+---
+
+## Introduction
+
+* General purpose of the paper.
+    * They proposed a **penalized maximum likelihood estimator with theoretical guarantees** (adaptive minimaxity).
+    * **Develop computationally feasible methods** (convex surrogates) for practical application.
+    * Evaluate **performance via simulations and real data**.
+
+---
+
+## Paper Structure
+
+* **Theoretical Framework.** It defines the statistical models (Poisson, NB), proposes the penalized estimation method and provides its statistical properties.
+* **Practical Solutions & Analysis:** The paper explores LASSO and SLOPE as convex surrogates. It analyzes their theoretical properties, showing SLOPE can retain optimality under specific conditions.
+* **Empirical Evaluation:** The performance of the practical methods (LASSO, SLOPE) is assessed and compared through simulations and real-world dataset.
+
+::: {.content-hidden when-format="html"}
+
+---
+
+## Models & Penalized MLE
+
+* **Penalized MLE for Feature Selection:**
+    * Find MLE $\hat{\beta}_M$ for each model $M$ (subset of features).
+    * Select best model $\hat{M}$ by minimizing: $-l(\hat{\beta}_M) + \text{Pen}(|M|)$.
+* **Proposed Complexity Penalty:**
+    * $\text{Pen}(k) = C k \ln(de/k)$ for model size $k < r$ (rank of $X$).
+    * Adapts: Behaves like RIC (conservative) for sparse models ($k \ll d$) and AIC (liberal) for dense models ($k \approx d$).
+
+---
+
+## Theory: Minimaxity & Convex Relaxations
+
+* Expected Kullback-Leibler (KL) divergence between true ($X\beta$) and estimated ($X\hat{\beta}$) distributions: $E[KL(X\beta, X\hat{\beta})]$.
+    * $KL(\lambda_1, \lambda_2) = \lambda_1\ln(\lambda_1/\lambda_2) - \lambda_1 + \lambda_2$ (Poisson).
+    * $KL(\lambda_1, \lambda_2) = \lambda_1(\ln\frac{\lambda_1}{\lambda_1+\alpha} - \ln\frac{\lambda_2}{\lambda_2+\alpha}) + \alpha \ln\frac{\lambda_1+\alpha}{\lambda_2+\alpha}$ (NB).
+* **Minimax Optimality (Theorem 2.1):**
+    * The penalized MLE with $\text{Pen}(k) = Ck \ln(de/k)$ achieves the optimal rate: $E[KL(X\beta, X\hat{\beta})] = O(\min(d_0\ln(de/d_0), r))$ simultaneously for all sparsity levels $d_0 = ||\beta||_0$.
+* **Computational Challenge:** Evaluating all $2^d$ models is infeasible.
+* **Convex Relaxations:** Replace non-convex $||\beta||_0$ penalty.
+    * **LASSO:** $\hat{\beta}_L = \arg \min_{\tilde{\beta}} \{ -l(\tilde{\beta}) + \gamma||\tilde{\beta}||_1 \}$.
+        * Computationally efficient.
+        * Theoretically suboptimal: KL risk $O(d_0 \ln d)$ (similar to RIC).
+    * **SLOPE:** $\hat{\beta}_S = \arg \min_{\tilde{\beta}} \{ -l(\tilde{\beta}) + \sum_{j=1}^d \gamma_j|\tilde{\beta}|_{(j)} \}$ ($|\tilde{\beta}|_{(j)}$ are sorted absolute values).
+        * **Theorem 2.2:** With $\gamma_j = \tilde{C}\sqrt{\ln(2d/j)}$ and under WRE condition, SLOPE achieves the **optimal** KL risk $O(d_0/\kappa(d_0) \cdot \ln(de/d_0))$. ($\kappa(d_0)$ depends on WRE).
+        * Computation: Solved via FISTA algorithm.
+
+---
+
+## Simulation Study Results
+
+* **Setup:** Compared LASSO, SLOPE, Forward Selection (FS) on simulated Poisson data; varied dimension ($d$), sparsity ($d_0$), predictor correlation ($\rho$).
+* **Prediction Accuracy (KL-Divergence on Test Set):**
+    * SLOPE and LASSO significantly outperform FS across settings.
+    * SLOPE typically yields lower KL divergence (better prediction) than LASSO.
+    * SLOPE's advantage is more pronounced for correlated predictors ($\rho = 0.5, 0.8$) and denser models (higher $d_0/d$).
+* **Model Size (Number of Selected Features):**
+    * FS often selects the sparsest models.
+    * SLOPE tends to select larger models than LASSO, especially when predictors are correlated ($\rho > 0$). This is because SLOPE tends to include whole groups of correlated predictors, while LASSO often picks one representative.
+
+*(See Figures 1-6 in the paper for boxplots)*
+
+---
+
+## Real Data Analysis: MovieLens
+
+* **Task:** Predict number of user reviews for movies using $d=276$ features (cast, budget, keywords, etc.).
+* **Model:** Negative Binomial required due to significant overdispersion found in the data (tested via `glm.nb`, estimated $\hat{\alpha}$ indicated overdispersion).
+* **Results (Subset, $n\approx 2.3k$):**
+    * Prediction (Normalized Deviance): SLOPE ($1.409$) < LASSO ($1.418$) < FS ($1.451$) on test set.
+    * # Features Selected: SLOPE ($97$) > LASSO ($55$) > FS ($11$).
+* **Results (Full Data, $n\approx 45k$):**
+    * Prediction (Normalized Deviance): SLOPE ($1.049$) ≈ LASSO ($1.050$) < FS ($1.165$) on test set.
+    * Features Selected: SLOPE ($265$) ≈ LASSO ($264$) >> FS ($11$).
+    * Larger sample size allowed detection of weaker effects, leading to much denser models for SLOPE/LASSO.
+* **Overall Conclusion:** Results align with theory and simulations. SLOPE and LASSO are effective for high-dimensional count data. SLOPE offers strong (often optimal) theoretical guarantees and empirical performance, especially in correlated settings, sometimes selecting larger models than LASSO.
+
+:::

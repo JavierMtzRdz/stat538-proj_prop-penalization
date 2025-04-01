@@ -1,0 +1,87 @@
+---
+output: github_document
+---
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 8,
+  fig.height = 4.5,
+  fig.align = "center",
+  fig.path = "figs/"
+)
+```
+# Project Title
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+One Paragraph of the project description.
+
+- [Getting Started](#getting-Started)
+  - [Prerequisites](#prerequisites)
+  - [Installing](#installing)
+- [Usage](#usage)
+- [Authors](#authors)
+- [Contributing](#contributing)
+- [Acknowledgments](#acknowledgments)
+
+## Getting Started
+
+### Prerequisites
+
+Requirements for the software and other tools to build, test and push 
+- [Example 1](https://www.example.com)
+- [Example 2](https://www.example.com)
+
+### Installing
+
+A step by step series of examples that tell you how to get a development
+environment running
+
+Say what the step will be
+
+    Give the example
+
+```{r cars}
+summary(cars)
+```
+
+
+## How To Use
+
+> [!NOTE]
+> This is a note.
+
+```{r pressure, echo = FALSE}
+plot(pressure)
+```
+
+## Authors
+
+  - **[Someone](https://github.com/PurpleBooth)** 
+
+> [Something](https://github.com/) &nbsp;&middot;&nbsp;
+> GitHub [@javiermtz](https://github.com/) &nbsp;&middot;&nbsp;
+
+See also the list of
+[contributors](https://github.com/)
+who participated in this project.
+
+## Contributing
+
+Pull requests are welcome. For major changes, please open an issue first
+to discuss what you would like to change.
+
+Please make sure to update tests as appropriate.
+
+## Acknowledgments
+
+  - This template is based on Billie Thompson's template - [README Template](https://github.com/PurpleBooth/a-good-readme-template#readme)
+
+## References
+
+---
+
