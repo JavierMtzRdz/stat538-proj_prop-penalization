@@ -91,7 +91,7 @@ to calculate the penalty which is applied to the model.
 
 ## From Hypothesis Testing to Inference - SLOPE
 * What if we use BH like penalties instead?
-    + $\lambda_{\text{BH}}(i) := \phi^{-1}(1-\frac{q}{2m})$
+    + $\lambda_{\text{BH}}(i) := \phi^{-1}\left(1-\frac{qi}{2m}\right)$
     + $\min \frac 1 2 \|y-X\beta\|^2 + \sigma \cdot \sum_{i=1}^m \lambda_{\text{BH}}(i)|\beta_i|$
 * Key differences
     + Non-homogenous penalty
