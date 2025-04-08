@@ -74,13 +74,21 @@ Lorem ipsum dolor sit amet:
 * Key differences
     + Non-homogenous penalty
     + Sorting of coefficients
-
 ---
 
-## SLOPE
-* Provably controls FDR for orthogonal design matrices
+
+## SLOPE on orthogonal design matrices
+* Provably controls FDR for orthogonal design matrices with known Gaussian errors
 * Convex optimization problem
 * Not exactly equivalent to Benjamini-Hochberg
+---
+
+## SLOPE in general
+* Coefficients don't have to be related to BH
+* Need to obey $\lambda_1 \geq \lambda_2 \ldots \lambda_p \geq 0$
+* Suggested use
+    + Use SLOPE for model selection
+    + Once a model is selected, find coefficients with OLS
 ---
 
 ## Experiments
