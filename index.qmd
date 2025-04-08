@@ -1,10 +1,14 @@
 ---
-title: "<span style='color:#f10f10f10; font-size:100pt'><br>
-SLOPE for Count Responses
-</span>"
-subtitle: "<span style='color:#f10f10f10; font-size:30pt'>
- </span>"
-author: "<span style='color:#f10f10f10; font-size:30pt'></span>"
+title: 
+  "<span style='color:#f10f10f10; font-size:100pt'><br>
+  SLOPE for Count Responses
+  </span>"
+subtitle: 
+  "<span style='color:#f10f10f10; font-size:30pt'>
+  STAT 538A Paper Presentation
+  </span>"
+author: 
+  "<span style='color:#f10f10f10; font-size:30pt'></span>"
 ---
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}
@@ -33,12 +37,33 @@ options(scipen = 999)
 
 ## Refining the Research Focus
 
+
 * **Initial Research Direction:** Explore proposed penalization by Zilberman & Abramovich (2025).
 
 * **Problem:** The proposed method relies on Lasso and SLOPE as convex surrogates.
 
 * **Refined Project Focus:** This project centers specifically on **SLOPE's (Sorted L-One Penalized Estimation)** performance for **count data**.
 
+## Introduction
+
+SLOPE (*Sorted L-One Penalized Estimation*) is a method for estimating the 
+parameter $\beta$ in a parametric statistical model.
+
+* Similar to LASSO, this algorithm incurs a **penalty term** based on the 
+$\ell_{1}$ norm of the estimator $\hat{\beta}$.
+* Unlike LASSO, SLOPE does not use a constant term $\lambda$ 
+to calculate the penalty which is applied to the model fit.
+
+
+## Comparison of $\ell_{1}$ Penalties
+
+
+* The penalty term in LASSO regression is $\lambda\sum_{i=1}^{p}\left\vert\hat{\beta}_{i}\right\vert$. 
+* The SLOPE penalty is given by $\sum_{i=1}^{p}\lambda_{i}\left\vert\hat{\beta}_{(i)}\right\vert$.
+  - In this equation, $\lambda_{1} \ge \lambda_{2} \ge \dots \ge \lambda_{p} \ge 0$, 
+ and the elements of $\hat{\beta}$ are sorted so that 
+ $\left\vert\hat{\beta}_{(1)}\right\vert \ge \dots \ge \left\vert\hat{\beta}_{(p)}\right\vert$.
+ 
 ---
 
 ## Paper Ideas

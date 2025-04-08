@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# Project for STAT 338
+# Final Project for STAT 538A (*Generalized Linear Models*)
 
 <!-- badges: start -->
 <!-- badges: end -->
