@@ -125,17 +125,19 @@ assess the FWER and FDR of SLOPE for different ratios $p/n$.
 
 ## Experimental Design: Proposal {.smaller}
 
-* **Research Gap:** Original SLOPE paper (Bogdan et al., 2015) only discusses linear models with Gaussian error terms[cite: 1].
+* **Research Gap:** Original SLOPE paper (Bogdan et al., 2015) only discusses linear models with Gaussian error terms.
 * **Goal:** Use simulations to compare SLOPE with other penalized methods (e.g. LASSO, adaptive LASSO) for modelling count responses (Poisson model).
 * **Research Question:** How does the performance of SLOPE regarding variable selection accuracy (FDR and Power) compare to LASSO and Adaptive LASSO when applied to high-dimensional Poisson regression?
 
+
 ## Compared Methods & Penalties
 
-* **Objective:** Minimize $- \frac{1}{n} \log L(\beta; y, X) + \text{Penalty}(\beta)$
+* **Objective:** Minimize $- \frac{1}{n} \log L(\hat{\beta}; y, X) + \text{Penalty}(\hat{\beta})$
 * **Penalties:**
-    * **SLOPE Penalty:** $\sum_{i=1}^{p}\lambda_{i}|\beta|_{(i)}$, $|\beta|_{(1)} \ge ... \ge |\beta|_{(p)}$, $\lambda_1 \ge ... \ge \lambda_p \ge 0$.
-    * **Lasso (L1):** $\lambda ||\beta||_{1}$
-    * **Adaptive Lasso:** $\lambda \sum_{j=1}^{p} w_j |\beta_j|$ (where $w_j \propto |\hat{\beta}_{init, j}|^{-\gamma}$)
+    * **SLOPE Penalty:** $\sum_{i=1}^{p}\lambda_{i}|\hat{\beta}|_{(i)}$, $|\hat{\beta}|_{(1)} \ge ... \ge |\hat{\beta}|_{(p)}$, $\lambda_1 \ge ... \ge \lambda_p \ge 0$.
+    * **Lasso (L1):** $\lambda ||\hat{\beta}||_{1}$
+    * **Adaptive Lasso:** $\lambda \sum_{j=1}^{p} w_j |\beta_j|$ (where $w_j \propto 1/|\hat{\beta}_{init, j}|^{-\gamma}$)
+
 
 
 ## Experimental Design: Data Generation
@@ -173,7 +175,6 @@ assess the FWER and FDR of SLOPE for different ratios $p/n$.
 * **Lasso, Adaptive Lasso:**
     * 10-fold Cross-Validation.
     * Select tuning parameter(s) by minimizing Poisson deviance.
-    * *(Specify initial estimator and $\gamma$ for Adaptive Lasso)*
 * **SLOPE:**
     * Target FDR level $q = 0.1$.
     * Use BH-inspired sequence $\{\lambda_i\}$.
