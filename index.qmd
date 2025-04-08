@@ -66,14 +66,53 @@ to calculate the penalty which is applied to the model fit.
  
 ---
 
-## Paper Ideas
+## Background - Multiple Hypothesis Testing and FWER
+* Example - gene testing with $n$ patients and $m > n$ predictors
+* Original setting - linear regression with known variance
+* FWER - family-wise error rate
+    + Probability of making at least one type I error
+* Bonferroni correction
+    + Set $\alpha_{\text{BON}} = \frac{\alpha}{m}$
+---
 
-Lorem ipsum dolor sit amet: 
+## Background - FDR
+* FDR - false discovery rate
+    + Expected proportion of false rejections
+* Benjamini-Hochberg
+    + Order the p-values
+    + Find largest $p$ such that $p_{(j)} \leq \frac{qj}{m}$
+---
 
-* consectetur **adipiscing elit**, 
-* sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-* Ut enim ad minim veniam, quis nostrud exercitation
+## From Hypothesis Testing to Inference - LASSO
+* Model selection can be viewed as multiple hypothesis testing
+    + If coefficients are 0 they are not significant
+* For orthogonal design matrices LASSO is equivalent to Bonferroni
+    + Orthogonal design matrix: columns are orthogonal
+    + LASSO: $\min \frac 1 2 \|y-X\beta\|_2^2 + \lambda \|\beta\|_1$
+---
 
+## From Hypothesis Testing to Inference - SLOPE
+* What if we use BH like penalties instead?
+    + $\lambda_{\text{BH}}(i) := \phi^{-1}(1-\frac{q}{2m})$
+    + $\min \frac 1 2 \|y-X\beta\|^2 + \sigma \cdot \sum_{i=1}^m \lambda_{\text{BH}}(i)|\beta_i|$
+* Key differences
+    + Non-homogenous penalty
+    + Sorting of coefficients
+---
+
+
+## SLOPE on orthogonal design matrices
+* Provably controls FDR for orthogonal design matrices with known Gaussian errors
+* Convex optimization problem
+* Not exactly equivalent to Benjamini-Hochberg
+---
+
+## SLOPE in general
+* Coefficients don't have to be related to BH
+* Need to obey $\lambda_1 \geq \lambda_2 \ldots \lambda_p \geq 0$
+* Suggested use
+    + Use SLOPE for model selection
+    + Once a model is selected, find coefficients with OLS
 ---
 
 ## Experiments
