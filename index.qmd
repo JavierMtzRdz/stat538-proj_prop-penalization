@@ -132,11 +132,11 @@ assess the FWER and FDR of SLOPE for different ratios $p/n$.
 
 ## Compared Methods & Penalties
 
-* **Objective:** Minimize $- \frac{1}{n} \log L(\hat{\beta}; y, X) + \text{Penalty}(\hat{\beta})$
+* **Objective:** Minimize $- \frac{1}{n} \log L({\beta}; y, X) + \text{Penalty}({\beta})$
 * **Penalties:**
     * **SLOPE Penalty:** $\sum_{i=1}^{p}\lambda_{i}|\hat{\beta}|_{(i)}$, $|\hat{\beta}|_{(1)} \ge ... \ge |\hat{\beta}|_{(p)}$, $\lambda_1 \ge ... \ge \lambda_p \ge 0$.
     * **Lasso (L1):** $\lambda ||\hat{\beta}||_{1}$
-    * **Adaptive Lasso:** $\lambda \sum_{j=1}^{p} w_j |\beta_j|$ (where $w_j \propto 1/|\hat{\beta}_{init, j}|^{-\gamma}$)
+    * **Adaptive Lasso:** $\lambda \sum_{j=1}^{p} w_j |\hat{\beta}_j|$ (where $w_j \propto 1/|\hat{\beta}_{init, j}|^{-\gamma}$)
 
 
 
