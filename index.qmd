@@ -127,16 +127,16 @@ Lorem ipsum dolor sit amet:
 
 ## Experimental Design: Proposal
 
-* **Research Gap:** Original SLOPE paper (Bogdan et al., 2015) focused on linear models / Gaussian errors[cite: 1].
+* **Research Gap:** Original SLOPE paper (Bogdan et al., 2015) focused on linear models with Gaussian errors.
 * **Goal:** Compare SLOPE against other penalized methods (Lasso, Adaptive Lasso) via simulations specifically for count responses (Poisson model).
-* **Research Question:** How does the performance of SLOPE regarding variable selection accuracy (FDR and Power) compare to Lasso and Adaptive Lasso when applied to high-dimensional Poisson regression?
+* **Research Question:** How does the performance of SLOPE regarding variable selection (FDR and Power) compare to Lasso and Adaptive Lasso when applied to high-dimensional Poisson regression?
 
 ## Compared Methods & Penalties
 
-* **Objective:** Minimize $- \frac{1}{n} \log L(\beta; y, X) + \text{Penalty}(\beta)$
+* **Objective:** Minimize $- \frac{1}{n} \log L(\hat{\beta}; y, X) + \text{Penalty}(\hat{\beta})$
 * **Penalties:**
-    * **SLOPE Penalty:** $\sum_{i=1}^{p}\lambda_{i}|\beta|_{(i)}$, $|\beta|_{(1)} \ge ... \ge |\beta|_{(p)}$, $\lambda_1 \ge ... \ge \lambda_p \ge 0$.
-    * **Lasso (L1):** $\lambda ||\beta||_{1}$
+    * **SLOPE Penalty:** $\sum_{i=1}^{p}\lambda_{i}|\hat{\beta}|_{(i)}$, $|\hat{\beta}|_{(1)} \ge ... \ge |\hat{\beta}|_{(p)}$, $\lambda_1 \ge ... \ge \lambda_p \ge 0$.
+    * **Lasso (L1):** $\lambda ||\hat{\beta}||_{1}$
     * **Adaptive Lasso:** $\lambda \sum_{j=1}^{p} w_j |\beta_j|$ (where $w_j \propto 1/|\hat{\beta}_{init, j}|^\gamma$)
 
 
@@ -175,7 +175,6 @@ Lorem ipsum dolor sit amet:
 * **Lasso, Adaptive Lasso:**
     * 10-fold Cross-Validation.
     * Select tuning parameter(s) by minimizing Poisson deviance.
-    * *(Specify initial estimator and $\gamma$ for Adaptive Lasso)*
 * **SLOPE:**
     * Target FDR level $q = 0.1$.
     * Use BH-inspired sequence $\{\lambda_i\}$.
