@@ -49,24 +49,22 @@ options(scipen = 999)
 SLOPE (*Sorted L-One Penalized Estimation*) is a method for estimating the 
 parameter $\beta$ in a parametric statistical model.
 
-* Similar to LASSO, this algorithm incurs a **penalty term** based on the 
-$\ell_{1}$ norm of the estimator $\hat{\beta}$.
+* Similar to LASSO, SLOPE uses a **penalty term** based on the $\ell_{1}$ 
+norm of the estimator $\hat{\beta}$.
 * Unlike LASSO, SLOPE does not use a constant term $\lambda$ 
-to calculate the penalty which is applied to the model fit.
-
+to calculate the penalty which is applied to the model.
 
 ## Comparison of $\ell_{1}$ Penalties
 
-
-* The penalty term in LASSO regression is $\lambda\sum_{i=1}^{p}\left\vert\hat{\beta}_{i}\right\vert$. 
-* The SLOPE penalty is given by $\sum_{i=1}^{p}\lambda_{i}\left\vert\hat{\beta}_{(i)}\right\vert$.
+* Penalty term in LASSO regression: $\lambda\sum_{i=1}^{p}\left\vert\hat{\beta}_{i}\right\vert$ 
+* SLOPE penalty term: $\sum_{i=1}^{p}\lambda_{i}\left\vert\hat{\beta}_{(i)}\right\vert$
   - In this equation, $\lambda_{1} \ge \lambda_{2} \ge \dots \ge \lambda_{p} \ge 0$, 
  and the elements of $\hat{\beta}$ are sorted so that 
  $\left\vert\hat{\beta}_{(1)}\right\vert \ge \dots \ge \left\vert\hat{\beta}_{(p)}\right\vert$.
  
 ---
 
-## Background - Multiple Hypothesis Testing and FWER
+## Background - Multiple Hypothesis Testing and FWER {.smaller}
 * Example - gene testing with $n$ patients and $m > n$ predictors
 * Original setting - linear regression with known variance
 * FWER - family-wise error rate
@@ -77,9 +75,9 @@ to calculate the penalty which is applied to the model fit.
 
 ## Background - FDR
 * FDR - false discovery rate
-    + Expected proportion of false rejections
+    + Expected proportion of false rejections (Type I errors)
 * Benjamini-Hochberg
-    + Order the p-values
+    + Order the $p$-values from smallest to largest
     + Find largest $p$ such that $p_{(j)} \leq \frac{qj}{m}$
 ---
 
@@ -102,7 +100,7 @@ to calculate the penalty which is applied to the model fit.
 
 
 ## SLOPE on orthogonal design matrices
-* Provably controls FDR for orthogonal design matrices with known Gaussian errors
+* Proven to control the FDR for orthogonal design matrices with known Gaussian errors
 * Convex optimization problem
 * Not exactly equivalent to Benjamini-Hochberg
 ---
@@ -117,19 +115,19 @@ to calculate the penalty which is applied to the model fit.
 
 ## Experiments
 
-Lorem ipsum dolor sit amet: 
-
-* consectetur **adipiscing elit**, 
-* sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-* Ut enim ad minim veniam, quis nostrud exercitation
+* Simulate a dataset of $n = 5000$ observations and a large number of predictors $p$ to 
+assess the FWER and FDR of SLOPE for different ratios $p/n$.
+* Compare the power and false discovery rates as a function of the number of selected predictors
+* Compare different procedures (BH and Bonferroni) for selecting the values of $\lambda_{1}, \dots, \lambda_{p}$
+* Compare FDR and power of SLOPE when $\sigma$ is known or unknown
 
 ---
 
-## Experimental Design: Proposal
+## Experimental Design: Proposal {.smaller}
 
-* **Research Gap:** Original SLOPE paper (Bogdan et al., 2015) focused on linear models / Gaussian errors[cite: 1].
-* **Goal:** Compare SLOPE against other penalized methods (Lasso, Adaptive Lasso) via simulations specifically for count responses (Poisson model).
-* **Research Question:** How does the performance of SLOPE regarding variable selection accuracy (FDR and Power) compare to Lasso and Adaptive Lasso when applied to high-dimensional Poisson regression?
+* **Research Gap:** Original SLOPE paper (Bogdan et al., 2015) only discusses linear models with Gaussian error terms[cite: 1].
+* **Goal:** Use simulations to compare SLOPE with other penalized methods (e.g. LASSO, adaptive LASSO) for modelling count responses (Poisson model).
+* **Research Question:** How does the performance of SLOPE regarding variable selection accuracy (FDR and Power) compare to LASSO and Adaptive LASSO when applied to high-dimensional Poisson regression?
 
 ## Compared Methods & Penalties
 
@@ -137,7 +135,7 @@ Lorem ipsum dolor sit amet:
 * **Penalties:**
     * **SLOPE Penalty:** $\sum_{i=1}^{p}\lambda_{i}|\beta|_{(i)}$, $|\beta|_{(1)} \ge ... \ge |\beta|_{(p)}$, $\lambda_1 \ge ... \ge \lambda_p \ge 0$.
     * **Lasso (L1):** $\lambda ||\beta||_{1}$
-    * **Adaptive Lasso:** $\lambda \sum_{j=1}^{p} w_j |\beta_j|$ (where $w_j \propto 1/|\hat{\beta}_{init, j}|^\gamma$)
+    * **Adaptive Lasso:** $\lambda \sum_{j=1}^{p} w_j |\beta_j|$ (where $w_j \propto |\hat{\beta}_{init, j}|^{-\gamma}$)
 
 
 ## Experimental Design: Data Generation
