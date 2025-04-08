@@ -118,7 +118,5 @@ Lorem ipsum dolor sit amet:
 
 ## Experimental Design: Evaluation Metrics
 
-* **False Discovery Rate:**
-        $E[ V / (R \vee 1) ]$
-* **Power:**
-        $E[ TP / (TP + FN) ]$
+* **False Discovery Rate.**
+* **Power.**
