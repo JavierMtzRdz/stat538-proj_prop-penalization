@@ -21,8 +21,8 @@ knitr::opts_chunk$set(
 Main document in the repository:
 
 - Document
-  - [Quarto source code](/docs/main.qmd)
-  - [PDF doc](/docs/main.pdf)
+  - [JN source code](/docs/SLOPE-proj_Hotz-Lau-Martinez.ipynb)
+  - [HTML doc](/docs/SLOPE-proj_Hotz-Lau-Martinez.html)
 - Presentation
   - [Quarto source code](index.qmd)
   - [HTML](https://javiermtzrdz.github.io/stat538-proj_prop-penalization/#/title-slide)
