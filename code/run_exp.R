@@ -24,7 +24,7 @@ signal_strengths <- list(
   weak = list(beta_min = 0.1, beta_max = 0.5)
   #strong = list(beta_min = 0.5, beta_max = 1.5)
 )
-R <- 15
+R <- 30
 q_fdr <- 0.05       # q parameter for SLOPE
 adapt_lasso_gamma <- 1 # ALasso weights
 beta0 <- 0.1
@@ -77,11 +77,15 @@ iter <- 0
 results_list <- list()
 total_runs <- length(p_values) * length(rho_values) * length(k_values) * length(signal_strengths) * R
 cli::cli_progress_bar("Cleaning data", total = total_runs)
-iter <- 0
+iter <- 60
 
 for (p in p_values) {
   for (rho in rho_values) {
-    set.seed(538)
+    set.seed(654)
+    seed_ite <- as.numeric(paste0(sample(0:9, 4), collapse = ""))
+    
+    set.seed(seed_ite)
+    
     for (k in k_values) {
       for (signal_name in names(signal_strengths)) {
         signal_info <- signal_strengths[[signal_name]]
@@ -103,7 +107,7 @@ for (p in p_values) {
           fdr_slope <- NA
           power_slope <- NA
           slope_error <- FALSE
-          slope_fit <- SLOPE::SLOPE(X, y, family = "poisson", q = q_fdr, lambda = "gaussian", alpha = sqrt(exp(beta0)/n)+0.02,
+          slope_fit <- SLOPE::SLOPE(X, y, family = "poisson", q = q_fdr, lambda = "gaussian", alpha = sqrt(exp(beta0)/n)+0.01,
                                     max_passes = 5000)
           slope_coeffs <- coef(slope_fit)
           
